@@ -14,7 +14,6 @@ import java.sql.Connection;
 
 public class DBUtility {
     public DBUtility(){};
-
     public static Session getConnection() {
         String dbPassword = System.getenv("hibernate_password");
         String dbUsername = System.getenv("hibernate_username");
