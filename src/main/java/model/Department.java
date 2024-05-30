@@ -1,11 +1,20 @@
 package model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
+//lombok annotation:
+@Getter
+@Setter
+@NoArgsConstructor
+
+//jakarta annotation:
 @Entity
 @Table
 public class Department implements Serializable  {
@@ -16,6 +25,8 @@ public class Department implements Serializable  {
     @GeneratedValue( strategy=GenerationType.IDENTITY )
     private int deptId;
     private String deptName;
+
+
     public Department(int deptId, String deptName) {
         super();
         this.deptId = deptId;
@@ -24,36 +35,18 @@ public class Department implements Serializable  {
 
     @OneToMany(targetEntity= Teacher.class, cascade = {CascadeType.ALL})
     private List<Teacher> teacherList;
-
     public List<Teacher> getTeacherList() {
         return teacherList;
     }
-
     public void setTeacherList(List<Teacher> teacherList) {
         this.teacherList = teacherList;
     }
 
-    public Department() {}
 
     public Department(String deptName) {
         this.deptName = deptName;
     }
 
-    public int getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(int deptId) {
-        this.deptId = deptId;
-    }
-
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
 }
 
 

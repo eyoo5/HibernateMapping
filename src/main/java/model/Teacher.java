@@ -1,11 +1,18 @@
 package model;
 
 import jakarta.persistence.*;
-
+import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Set;
 
+
+//lombok annotation
+@Getter
+@Setter
+@NoArgsConstructor
+
+//jakarta annotation
 @Entity
 @Table
 public class Teacher implements Serializable {
@@ -44,7 +51,7 @@ public class Teacher implements Serializable {
         super();
         this.salary = salary;
         this.teacherName = teacherName;    }
-    public Teacher() {}
+
     public Teacher(String salary, String teacherName, Department department) {
         this.salary = salary;
         this.teacherName = teacherName;
@@ -55,23 +62,6 @@ public class Teacher implements Serializable {
         this.teacherName = teacherName;
     }
 
-    public int getTeacherId() {
-        return teacherId;
-    }
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
-    }
-    public String getSalary() {
-        return salary;
-    }
-    public void setSalary(String salary) {
-        this.salary = salary;
-    }
-    public String getTeacherName() {
-        return teacherName;
-    }
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;    }
 }
 
 
