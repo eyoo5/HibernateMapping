@@ -1,3 +1,5 @@
+import jakarta.persistence.OneToOne;
+import model.Address;
 import model.Department;
 import model.Teacher;
 import org.hibernate.Session;
@@ -12,7 +14,8 @@ import java.util.ArrayList;
 public class App {
     public static void main(String[] args) {
 //        manyToOne();
-        oneToMany();
+//        oneToMany();
+        oneToOne();
     }
 
 
@@ -31,6 +34,7 @@ public class App {
         //adding mapping class:
         configuration.addAnnotatedClass(Department.class);
         configuration.addAnnotatedClass(Teacher.class);
+        configuration.addAnnotatedClass(Address.class);
         configuration.configure();
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
@@ -76,6 +80,7 @@ public class App {
         //adding mapping class:
         configuration.addAnnotatedClass(Department.class);
         configuration.addAnnotatedClass(Teacher.class);
+        configuration.addAnnotatedClass(Address.class);
         configuration.configure();
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
@@ -110,6 +115,55 @@ public class App {
         department.setTeacherList(teachersList);
         //Storing Department
         session.persist(department);
+        transaction.commit();
+    }
+
+    public static void oneToOne(){
+        System.out.println("Maven + Hibernate + SQL One to One Mapping Annotations");
+
+        String dbPassword = System.getenv("hibernate_password");
+        String dbUsername = System.getenv("hibernate_username");
+        String dbURL = System.getenv("dbURL");
+
+        Configuration configuration = new Configuration();
+        //setting password using .env file:
+        configuration.setProperty("hibernate.connection.password", dbPassword);
+        configuration.setProperty("hibernate.connection.username", dbUsername);
+        configuration.setProperty("hibernate.connection.url", dbURL);
+
+        //adding mapping class:
+        configuration.addAnnotatedClass(Department.class);
+        configuration.addAnnotatedClass(Teacher.class);
+        configuration.addAnnotatedClass(Address.class);
+        configuration.configure();
+
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(configuration.getProperties()).build();
+
+        SessionFactory factory = configuration.buildSessionFactory(serviceRegistry);
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+
+        //Lab way of making facotry session:
+//        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+//        Session session = factory.openSession();
+
+        Address a1 = new Address("27th street","NYC","NY",11103);
+        Address a2 = new Address("28th street","Buffalo","NY",15803);
+
+        Teacher t1 = new Teacher("1000","MHaseeb");
+        Teacher t2 = new Teacher("2220","Shahparan");
+        t1.setAddress(a1);
+        t2.setAddress(a2);
+
+
+
+        session.persist(a1);
+        session.persist(a2);
+        session.persist(t1);
+        session.persist(t2);
+
         transaction.commit();
     }
 
